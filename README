@@ -1,0 +1,22 @@
+=====================
+SimpleBlog.Mvc
+=====================
+
+This is a simple blog library for Asp.NET MVC for when you don't want a full blogging platform.
+
+It is currently still very integated with my existing website, so not ready for use yet. 
+
+Eventually I plan to abstract the functionality so it can be used on any site.
+
+===
+
+All code in this project is covered under the terms 
+of the GNU General Public License a copy of which 
+is available in the same directory under the file 
+name LICENSE
+
+===
+
+This program is Copyright 2012 Simon P Stevens
+
+===
