@@ -68,7 +68,7 @@ namespace SimpleBlogger.Mvc
 
                 blogPosts.Add(blogPost);
 
-                NewsItem newsItem = new NewsItem(NewsType.Blog, blogPost.UrlFriendlyTitle, blogPost.Title, postAnnounementTitle, blogHtml, blogPost.InternalHttpPath, blogPost.CreatedDate);
+                NewsItem newsItem = new NewsItem(NewsType.Blog, blogPost.UrlFriendlyTitle, blogPost.Title, postAnnounementTitle, blogHtml, blogPost.InternalHttpPath, blogPost.CreatedDate, blogPost.PublishDate);
                 news.Add(newsItem);
 
                 var newsFeedItem = new SyndicationItem(blogPost.Title, blogPost.PostExternalHtml, new Uri(blogPost.ExternalHttpPath), blogPost.UrlFriendlyTitle, blogPost.CreatedDate);
@@ -78,8 +78,8 @@ namespace SimpleBlogger.Mvc
             }
 
             // Order the news by creation date.
-            this.News = news.OrderByDescending(n => n.CreatedDate);
-            this.BlogPosts = blogPosts.OrderByDescending(n => n.CreatedDate);
+            this.News = news.Where(n => !n.PublishDate.HasValue || n.PublishDate.Value < DateTime.Now).OrderByDescending(n => n.CreatedDate);
+            this.BlogPosts = blogPosts.Where(b=>!b.PublishDate.HasValue || b.PublishDate.Value < DateTime.Now).OrderByDescending(n => n.CreatedDate);
         }
 
         public SyndicationFeed BuildFeed()

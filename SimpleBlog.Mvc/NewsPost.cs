@@ -21,6 +21,7 @@ namespace SimpleBlogger.Mvc
         public String NewsData_jsEnhanced { get; private set; }
         public String PermaLink { get; private set; }
         public DateTime CreatedDate { get; private set; }
+        public DateTime? PublishDate { get; set; }
         public NewsType NewsType { get; private set; }
 
         public bool Display
@@ -36,12 +37,12 @@ namespace SimpleBlogger.Mvc
             private set { return; }
         }
 
-        public NewsItem(NewsType type, String id, String name, String titleLink, String newsData, String permaLink, DateTime createdDate)
-            : this(type, id, name, titleLink, newsData, newsData, permaLink, createdDate)
+        public NewsItem(NewsType type, String id, String name, String titleLink, String newsData, String permaLink, DateTime createdDate, DateTime? publishDate)
+            : this(type, id, name, titleLink, newsData, newsData, permaLink, createdDate, publishDate)
         {
         }
 
-        public NewsItem(NewsType type, String id, String name, String titleLink, String newsData_jsEnhanced, String newsData, String permaLink, DateTime createdDate)
+        public NewsItem(NewsType type, String id, String name, String titleLink, String newsData_jsEnhanced, String newsData, String permaLink, DateTime createdDate, DateTime? publishDate)
         {
             this.NewsType = type;
             this.Id = id;
@@ -51,6 +52,7 @@ namespace SimpleBlogger.Mvc
             this.NewsData_jsEnhanced = newsData_jsEnhanced;
             this.PermaLink = permaLink;
             this.CreatedDate = createdDate;
+            this.PublishDate = publishDate;
         }
     }
 
@@ -167,6 +169,8 @@ namespace SimpleBlogger.Mvc
 
         public DateTime CreatedDate { get; set; }
 
+        public DateTime? PublishDate { get; set; }
+
         public string ExternalHttpPath { get; set; }
 
         public bool PreviewAvailable { get; set; }
@@ -231,6 +235,13 @@ namespace SimpleBlogger.Mvc
             Regex dateRegEx = new Regex(@"\<meta name=""Date"" content=""(?'date'.*)"" \/\>");
             Match dateMatch = dateRegEx.Match(header);
             this.CreatedDate = DateTime.Parse(dateMatch.Groups["date"].Value);
+
+            Regex publishDateRegEx = new Regex(@"\<meta name=""PublishDate"" content=""(?'date'.*)"" \/\>");
+            Match publicDateMatch = publishDateRegEx.Match(header);
+            if (publicDateMatch.Success)
+            {
+                this.PublishDate = DateTime.Parse(publicDateMatch.Groups["date"].Value);
+            }
 
             Regex descriptionRegEx = new Regex(@"\<meta name=""Description"" content=""(?'description'.*)"" \/\>");
             Match descriptionMatch = descriptionRegEx.Match(header);

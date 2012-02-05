@@ -19,6 +19,7 @@ namespace SimpleBlogger.Mvc.Controllers
         {
             SiteNewsModel newsModel = new SiteNewsModel("http://creou.com", HttpContext.Server.MapPath("~/Content/blog/"));
             var blogPost = newsModel.BlogPosts.Where(b => b.Id == blogId).FirstOrDefault();
+           
             return View(blogPost);
             //var newsItemQuery = from n in MvcApplication.SiteNewsModel.NewsPosts
             //                    where String.Equals(n.Id, newsId, StringComparison.OrdinalIgnoreCase)
